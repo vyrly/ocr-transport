@@ -17,6 +17,8 @@ std::map<char, char> mapping = {{'1','N'},
 																{'D','Z'}
 																};
 
+bool debug = false;
+
 std::string readFile(std::string fileName){
 
 	unsigned char x;
@@ -34,11 +36,13 @@ std::string readFile(std::string fileName){
 std::string convert2ocr(std::string input){
 	std::string	out;
 	out = input;
-	std::cout << "Converting to ocr readable" << std::endl;
+	if (debug)
+		std::cout << "Converting to ocr readable" << std::endl;
 
 	for ( auto& val : mapping )
 	{
-		std::cout << "Replacing " << val.first << " with " << val.second << std::endl;
+		if (debug)
+			std::cout << "Replacing " << val.first << " with " << val.second << std::endl;
 		std::replace( out.begin(), out.end(), val.first , val.second);
 	}
 	return out;
@@ -47,11 +51,13 @@ std::string convert2ocr(std::string input){
 std::string convert2hex(std::string input){
 	std::string	out;
 	out = input;
-	std::cout << "Converting to hex" << std::endl;
+	if (debug)
+		std::cout << "Converting to hex" << std::endl;
 
 	for ( auto& val : mapping )
 	{
-		std::cout << "Replacing " << val.second << " with " << val.first << std::endl;
+		if (debug)
+			std::cout << "Replacing " << val.second << " with " << val.first << std::endl;
 		std::replace( out.begin(), out.end(), val.second , val.first);
 	}
 	return out;
@@ -68,6 +74,7 @@ void saveFile(std::string fileName, std::string hexString){
 	{
 		output.write((char *)&c, sizeof(c));
 	}
+	std::cout <<  fileName << ".out" << " saved" << std::endl;
 }
 
 std::string readFromFile(std::string fileName){
@@ -86,17 +93,15 @@ int main(int argc, const char *argv[])
 	assert (argc >= 3);
 	std::string fileName = argv[2];
 	if (!strcmp(argv[1], "show")){
-		std::cout << "AAAAAA" << std::endl;
 		std::string hexString = readFile(fileName);
-		//std::cout << hexString << std::endl;
 		std::string converted = convert2ocr(hexString);
-		std::cout << std::endl << std::endl << converted << std::endl << std::endl << std::endl;
+		std::cout << converted << std::endl;
 	}
 	else if (!strcmp(argv[1], "decode")){
-		std::cout << "BBBBBB" << std::endl;
 		std::string input = readFromFile(fileName);
 		std::string hexString2 = convert2hex(input);
-		std::cout << hexString2 << std::endl;
+		if (debug)
+			std::cout << hexString2 << std::endl;
 		saveFile(fileName, hexString2);
 	}
 

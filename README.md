@@ -6,5 +6,5 @@ Tesseract config file:  /usr/share/tesseract-ocr/tessdata/configs
 
 	
 Mapping:
-// 0123456789ABCDEF
-// _N___T_____X_Z__
+0123456789ABCDEF
+_N___T_____X_Z__
